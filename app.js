@@ -2,7 +2,7 @@ const $ = (selector) => document.querySelector(selector);
 const $$ = (selector) => [...document.querySelectorAll(selector)];
 
 const storageKey = 'mediClaveProducts';
-const whatsappNumber = '27764167150';
+const whatsappNumber = '27829254918';
 const ownerEmail = 'sales@medi-clave.co.za';
 
 const defaultProducts = [
