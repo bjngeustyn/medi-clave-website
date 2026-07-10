@@ -3,7 +3,6 @@ const $$ = (selector) => [...document.querySelectorAll(selector)];
 
 const storageKey = 'mediClaveProducts';
 const adminSessionKey = 'mediClaveAdminUnlocked';
-const adminPassword = 'MediClave2026!';
 const whatsappNumber = '27829254918';
 const ownerEmail = 'sales@medi-clave.co.za';
 
@@ -157,6 +156,16 @@ function setAdminUnlocked(unlocked) {
   workspace.setAttribute('aria-hidden', String(!unlocked));
 
   if (loginStatus) loginStatus.textContent = unlocked ? '' : 'Admin locked.';
+}
+
+function getAdminPassword(date = new Date()) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  const dateNumber = Number(`${year}${month}${day}`);
+  const hour = date.getHours();
+
+  return String(Math.floor(((dateNumber + hour) * 1999) / 1000));
 }
 
 function productImageFallback() {
@@ -480,7 +489,7 @@ function initForms() {
     const suppliedPassword = $('#adminPassword').value;
     const loginStatus = $('#adminLoginStatus');
 
-    if (suppliedPassword === adminPassword) {
+    if (suppliedPassword === getAdminPassword()) {
       $('#adminPassword').value = '';
       setAdminUnlocked(true);
       setProductStatus('Admin unlocked. You can now upload, edit, delete, and export products.');
