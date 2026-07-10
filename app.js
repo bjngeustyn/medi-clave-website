@@ -42,11 +42,13 @@ const defaultProducts = [
   },
   {
     id: 'plasma',
-    name: 'Low Temperature Plasma Sterilizer',
+    name: 'Specialized Sterilization Equipment',
     category: 'Specialized Equipment',
-    capacity: 'Low temperature',
-    description: 'Hydrogen peroxide plasma sterilization for heat-sensitive instruments and specialized medical workflows.',
-    image: 'https://images.unsplash.com/photo-1581093458791-9d15482442f6?auto=format&fit=crop&w=900&q=82',
+    capacity: 'Plasma, rapid cycles and specialty workflows',
+    description: 'Specialized sterilization options for heat-sensitive instruments, rapid-cycle applications, and advanced CSSD workflows.',
+    image: 'assets/medi-clave-chatbot.png',
+    videoUrl: 'https://www.linkedin.com/posts/medi-clave-pty-ltd_technology-innovation-autoclave-activity-6971066258922295296-v91U',
+    videoLabel: 'Watch technology video',
   },
   {
     id: 'monitoring',
@@ -127,7 +129,10 @@ function initIcons() {
 function loadProducts() {
   try {
     const stored = JSON.parse(localStorage.getItem(storageKey));
-    return Array.isArray(stored) && stored.length ? stored : defaultProducts;
+    if (!Array.isArray(stored) || !stored.length) return defaultProducts;
+
+    const currentDefaults = new Map(defaultProducts.map((product) => [product.id, product]));
+    return stored.map((product) => (product.id === 'plasma' ? currentDefaults.get('plasma') : product));
   } catch {
     return defaultProducts;
   }
@@ -179,12 +184,24 @@ function renderFilters() {
 function productCard(product) {
   return `
     <article class="product-card">
-      <img src="${product.image || productImageFallback()}" alt="${product.name}" loading="lazy">
+      <div class="product-media ${product.videoUrl ? 'has-video' : ''}">
+        <img src="${product.image || productImageFallback()}" alt="${product.name}" loading="lazy" onerror="this.src='${productImageFallback()}'">
+        ${
+          product.videoUrl
+            ? `<a class="video-chip" href="${product.videoUrl}" target="_blank" rel="noreferrer"><i data-lucide="play-circle"></i>${product.videoLabel || 'Watch video'}</a>`
+            : ''
+        }
+      </div>
       <div class="product-card-body">
         <span class="tag">${product.category}</span>
         <h3>${product.name}</h3>
         <strong>${product.capacity || 'Specification on request'}</strong>
         <p>${product.description || 'Contact Medi-Clave for product specifications and availability.'}</p>
+        ${
+          product.videoUrl
+            ? `<a class="ghost-button" href="${product.videoUrl}" target="_blank" rel="noreferrer"><i data-lucide="linkedin"></i>Open LinkedIn video</a>`
+            : ''
+        }
         <a class="ghost-button" href="${whatsappUrl(`Hi Medi-Clave, I would like more information about ${product.name}.`)}" target="_blank" rel="noreferrer">
           <i data-lucide="message-circle"></i>Ask on WhatsApp
         </a>
