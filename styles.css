@@ -276,6 +276,7 @@ button,
 .stats-band article,
 .product-card,
 .cert-grid article,
+.admin-login,
 .product-form,
 .admin-list-panel,
 .lead-form,
@@ -525,6 +526,53 @@ button,
   grid-template-columns: minmax(300px, 1.1fr) minmax(280px, 0.9fr);
   gap: 22px;
   align-items: start;
+}
+
+.admin-login {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 360px) auto;
+  gap: 14px;
+  align-items: end;
+  margin-bottom: 18px;
+  padding: 20px;
+}
+
+.admin-login h3,
+.admin-login p {
+  margin: 0;
+}
+
+.admin-login p {
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.admin-login.unlocked {
+  display: none;
+}
+
+.admin-workspace.locked {
+  display: none;
+}
+
+.admin-toolbar {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border: 1px solid rgba(12, 99, 184, 0.18);
+  border-radius: 8px;
+  background: rgba(12, 99, 184, 0.08);
+  color: var(--primary-dark);
+  font-weight: 900;
+  padding: 12px 14px;
+}
+
+.admin-toolbar span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .product-form,
@@ -787,6 +835,7 @@ svg {
   .feature-section,
   .technology-grid,
   .cert-grid,
+  .admin-login,
   .admin-workspace,
   .contact-section {
     grid-template-columns: 1fr;
@@ -836,6 +885,7 @@ svg {
   .hero-actions,
   .lead-actions,
   .admin-actions,
+  .admin-toolbar,
   .site-footer,
   .chat-form {
     align-items: stretch;

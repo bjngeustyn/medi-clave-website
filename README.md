@@ -18,3 +18,11 @@ The repository includes `.github/workflows/pages.yml`. After pushing to GitHub, 
 ## Product Admin
 
 The product admin panel stores products in browser local storage so it can work on GitHub Pages without a server. Use **Export JSON** when products should be turned into permanent catalogue data.
+
+Default admin password:
+
+```text
+MediClave2026!
+```
+
+For this static GitHub Pages version, the password is stored in `app.js` and should be treated as a simple editing gate, not high-security authentication.

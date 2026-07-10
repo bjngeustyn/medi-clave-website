@@ -160,13 +160,29 @@
       <section id="admin" class="admin-section">
         <div class="section-heading narrow">
           <p class="eyebrow">Owner product admin</p>
-          <h2>Upload and manage new products before publishing updates.</h2>
+          <h2>Login to upload and manage product data.</h2>
           <p>
-            This GitHub Pages-friendly admin panel stores products in this browser. Export the JSON and commit it
-            later when you want the public catalogue updated for everyone.
+            Product changes display immediately on this device. Export the JSON when you want the catalogue
+            committed as permanent public data.
           </p>
         </div>
-        <div class="admin-workspace">
+        <form id="adminLoginForm" class="admin-login">
+          <div>
+            <h3>Owner Login</h3>
+            <p>Enter the admin password to unlock product uploads and edits.</p>
+          </div>
+          <label>
+            Password
+            <input id="adminPassword" type="password" autocomplete="current-password" required placeholder="Admin password">
+          </label>
+          <button class="primary-button" type="submit"><i data-lucide="lock-keyhole"></i>Unlock admin</button>
+          <p id="adminLoginStatus" class="form-status" role="status"></p>
+        </form>
+        <div id="adminWorkspace" class="admin-workspace locked" aria-hidden="true">
+          <div class="admin-toolbar">
+            <span><i data-lucide="shield-check"></i>Admin unlocked</span>
+            <button class="ghost-button" type="button" id="adminLogout"><i data-lucide="log-out"></i>Logout</button>
+          </div>
           <form id="productForm" class="product-form">
             <input type="hidden" id="productId">
             <label>
@@ -297,6 +313,6 @@
       <span>Portion 69, Melvic Skurweberg Ext 488, Pretoria | Mon-Thu 7am-4pm, Fri 7am-2pm</span>
     </footer>
 
-    <script defer src="app.js?v=20260710-whatsapp"></script>
+    <script defer src="app.js?v=20260710-admin-login"></script>
   </body>
 </html>

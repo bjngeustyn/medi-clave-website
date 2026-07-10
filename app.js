@@ -2,6 +2,8 @@ const $ = (selector) => document.querySelector(selector);
 const $$ = (selector) => [...document.querySelectorAll(selector)];
 
 const storageKey = 'mediClaveProducts';
+const adminSessionKey = 'mediClaveAdminUnlocked';
+const adminPassword = 'MediClave2026!';
 const whatsappNumber = '27829254918';
 const ownerEmail = 'sales@medi-clave.co.za';
 
@@ -75,6 +77,23 @@ function loadProducts() {
 
 function saveProducts() {
   localStorage.setItem(storageKey, JSON.stringify(products));
+}
+
+function isAdminUnlocked() {
+  return sessionStorage.getItem(adminSessionKey) === 'true';
+}
+
+function setAdminUnlocked(unlocked) {
+  const loginForm = $('#adminLoginForm');
+  const workspace = $('#adminWorkspace');
+  const loginStatus = $('#adminLoginStatus');
+
+  sessionStorage.setItem(adminSessionKey, String(unlocked));
+  loginForm.classList.toggle('unlocked', unlocked);
+  workspace.classList.toggle('locked', !unlocked);
+  workspace.setAttribute('aria-hidden', String(!unlocked));
+
+  if (loginStatus) loginStatus.textContent = unlocked ? '' : 'Admin locked.';
 }
 
 function productImageFallback() {
@@ -175,6 +194,11 @@ function getImageData(file) {
 async function submitProduct(event) {
   event.preventDefault();
 
+  if (!isAdminUnlocked()) {
+    setProductStatus('Login required before products can be changed.');
+    return;
+  }
+
   const id = $('#productId').value || `product-${Date.now()}`;
   const existing = products.find((product) => product.id === id);
   const uploadedImage = await getImageData($('#productImage').files[0]);
@@ -197,6 +221,12 @@ async function submitProduct(event) {
 }
 
 function editProduct(id) {
+  if (!isAdminUnlocked()) {
+    setProductStatus('Login required before products can be edited.');
+    location.hash = '#admin';
+    return;
+  }
+
   const product = products.find((item) => item.id === id);
   if (!product) return;
 
@@ -210,6 +240,11 @@ function editProduct(id) {
 }
 
 function deleteProduct(id) {
+  if (!isAdminUnlocked()) {
+    setProductStatus('Login required before products can be deleted.');
+    return;
+  }
+
   const product = products.find((item) => item.id === id);
   products = products.filter((item) => item.id !== id);
   saveProducts();
@@ -219,6 +254,11 @@ function deleteProduct(id) {
 }
 
 function resetProducts() {
+  if (!isAdminUnlocked()) {
+    setProductStatus('Login required before products can be reset.');
+    return;
+  }
+
   products = [...defaultProducts];
   activeCategory = 'All';
   saveProducts();
@@ -228,6 +268,11 @@ function resetProducts() {
 }
 
 function exportProducts() {
+  if (!isAdminUnlocked()) {
+    setProductStatus('Login required before product data can be exported.');
+    return;
+  }
+
   const blob = new Blob([JSON.stringify(products, null, 2)], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
@@ -342,6 +387,26 @@ function initChat() {
 }
 
 function initForms() {
+  $('#adminLoginForm').addEventListener('submit', (event) => {
+    event.preventDefault();
+    const suppliedPassword = $('#adminPassword').value;
+    const loginStatus = $('#adminLoginStatus');
+
+    if (suppliedPassword === adminPassword) {
+      $('#adminPassword').value = '';
+      setAdminUnlocked(true);
+      setProductStatus('Admin unlocked. You can now upload, edit, delete, and export products.');
+      renderAdminList();
+      return;
+    }
+
+    loginStatus.textContent = 'Incorrect password.';
+  });
+  $('#adminLogout').addEventListener('click', () => {
+    setAdminUnlocked(false);
+    $('#productForm').reset();
+    $('#productId').value = '';
+  });
   $('#productForm').addEventListener('submit', submitProduct);
   $('#resetProducts').addEventListener('click', resetProducts);
   $('#exportProducts').addEventListener('click', exportProducts);
@@ -354,6 +419,7 @@ function initForms() {
 initNavigation();
 initForms();
 initChat();
+setAdminUnlocked(isAdminUnlocked());
 renderFilters();
 renderProducts();
 initIcons();
