@@ -30,11 +30,3 @@ For this static GitHub Pages version, the password is stored in `app.js` and sho
 ## Chatbot
 
 The floating assistant uses `assets/medi-clave-chatbot.png` and provides selectable FAQ prompts for quotes, product fit, service, breakdowns, consumables, validation, installation, and WhatsApp handover.
-
-## LinkedIn Video
-
-The Specialized Equipment product card links to this Medi-Clave LinkedIn technology post:
-
-```text
-https://www.linkedin.com/posts/medi-clave-pty-ltd_technology-innovation-autoclave-activity-6971066258922295296-v91U
-```

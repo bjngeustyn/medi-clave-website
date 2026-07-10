@@ -42,13 +42,11 @@ const defaultProducts = [
   },
   {
     id: 'plasma',
-    name: 'Specialized Sterilization Equipment',
+    name: 'Laoken Low Temperature Plasma Steriliser',
     category: 'Specialized Equipment',
-    capacity: 'Plasma, rapid cycles and specialty workflows',
-    description: 'Specialized sterilization options for heat-sensitive instruments, rapid-cycle applications, and advanced CSSD workflows.',
+    capacity: 'Low temperature plasma',
+    description: 'Low temperature plasma sterilisation for heat-sensitive instruments and specialized clinical workflows where steam sterilisation is not suitable.',
     image: 'assets/medi-clave-chatbot.png',
-    videoUrl: 'https://www.linkedin.com/posts/medi-clave-pty-ltd_technology-innovation-autoclave-activity-6971066258922295296-v91U',
-    videoLabel: 'Watch technology video',
   },
   {
     id: 'monitoring',
@@ -184,24 +182,14 @@ function renderFilters() {
 function productCard(product) {
   return `
     <article class="product-card">
-      <div class="product-media ${product.videoUrl ? 'has-video' : ''}">
+      <div class="product-media">
         <img src="${product.image || productImageFallback()}" alt="${product.name}" loading="lazy" onerror="this.src='${productImageFallback()}'">
-        ${
-          product.videoUrl
-            ? `<a class="video-chip" href="${product.videoUrl}" target="_blank" rel="noreferrer"><i data-lucide="play-circle"></i>${product.videoLabel || 'Watch video'}</a>`
-            : ''
-        }
       </div>
       <div class="product-card-body">
         <span class="tag">${product.category}</span>
         <h3>${product.name}</h3>
         <strong>${product.capacity || 'Specification on request'}</strong>
         <p>${product.description || 'Contact Medi-Clave for product specifications and availability.'}</p>
-        ${
-          product.videoUrl
-            ? `<a class="ghost-button" href="${product.videoUrl}" target="_blank" rel="noreferrer"><i data-lucide="linkedin"></i>Open LinkedIn video</a>`
-            : ''
-        }
         <a class="ghost-button" href="${whatsappUrl(`Hi Medi-Clave, I would like more information about ${product.name}.`)}" target="_blank" rel="noreferrer">
           <i data-lucide="message-circle"></i>Ask on WhatsApp
         </a>
