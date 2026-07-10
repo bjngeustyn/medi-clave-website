@@ -281,26 +281,37 @@
     </main>
 
     <button id="chatToggle" class="chat-toggle" type="button" aria-label="Open WhatsApp assistant">
-      <i data-lucide="message-circle"></i>
+      <img src="assets/medi-clave-chatbot.png" alt="">
     </button>
 
     <section id="chatWidget" class="chat-widget" aria-label="Medi-Clave WhatsApp assistant">
       <div class="chat-header">
-        <div>
-          <strong>Medi-Clave Assistant</strong>
-          <small>Answers here, handover on WhatsApp</small>
+        <div class="chat-title">
+          <img src="assets/medi-clave-chatbot.png" alt="">
+          <div>
+            <strong>Medi-Clave Assistant</strong>
+            <small>Answers here, handover on WhatsApp</small>
+          </div>
         </div>
         <button class="icon-button" id="chatClose" type="button" aria-label="Close chat"><i data-lucide="x"></i></button>
       </div>
       <div id="chatLog" class="chat-log" aria-live="polite"></div>
-      <div class="quick-prompts" aria-label="Quick prompts">
-        <button type="button" data-prompt="I need an autoclave quote">Quote</button>
-        <button type="button" data-prompt="I need service or repairs">Service</button>
-        <button type="button" data-prompt="Tell me about consumables">Consumables</button>
+      <div class="faq-panel" aria-label="Selectable FAQ prompts">
+        <p>Choose a topic to narrow your request:</p>
+        <div class="quick-prompts">
+          <button type="button" data-prompt="faq:quote"><i data-lucide="file-text"></i>Quote</button>
+          <button type="button" data-prompt="faq:product-fit"><i data-lucide="package-search"></i>Product fit</button>
+          <button type="button" data-prompt="faq:service"><i data-lucide="wrench"></i>Service</button>
+          <button type="button" data-prompt="faq:repair"><i data-lucide="triangle-alert"></i>Breakdown</button>
+          <button type="button" data-prompt="faq:consumables"><i data-lucide="boxes"></i>Consumables</button>
+          <button type="button" data-prompt="faq:validation"><i data-lucide="shield-check"></i>Validation</button>
+          <button type="button" data-prompt="faq:installation"><i data-lucide="truck"></i>Installation</button>
+          <button type="button" data-prompt="faq:whatsapp"><i data-lucide="message-circle"></i>WhatsApp</button>
+        </div>
       </div>
       <form id="chatForm" class="chat-form">
         <label class="sr-only" for="chatInput">Message Medi-Clave Assistant</label>
-        <input id="chatInput" autocomplete="off" placeholder="Ask about autoclaves, service, products...">
+        <input id="chatInput" autocomplete="off" placeholder="Type product, service, repair, quote, validation...">
         <button class="primary-button" type="submit" aria-label="Send message"><i data-lucide="send"></i></button>
       </form>
       <a id="whatsappHandover" class="whatsapp-handover" href="https://wa.me/27829254918" target="_blank" rel="noreferrer">
@@ -313,6 +324,6 @@
       <span>Portion 69, Melvic Skurweberg Ext 488, Pretoria | Mon-Thu 7am-4pm, Fri 7am-2pm</span>
     </footer>
 
-    <script defer src="app.js?v=20260710-admin-login"></script>
+    <script defer src="app.js?v=20260710-chatbot-faq"></script>
   </body>
 </html>

@@ -26,3 +26,7 @@ MediClave2026!
 ```
 
 For this static GitHub Pages version, the password is stored in `app.js` and should be treated as a simple editing gate, not high-security authentication.
+
+## Chatbot
+
+The floating assistant uses `assets/medi-clave-chatbot.png` and provides selectable FAQ prompts for quotes, product fit, service, breakdowns, consumables, validation, installation, and WhatsApp handover.

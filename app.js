@@ -62,6 +62,64 @@ let products = loadProducts();
 let activeCategory = 'All';
 let lastChatMessage = '';
 
+const faqReplies = {
+  'faq:quote': {
+    label: 'Quote request',
+    response:
+      'For a quotation, please share: product type, chamber capacity or daily load volume, facility type, location, available utilities, required timeline, and whether installation, validation, or service support must be included.',
+    whatsapp:
+      'Hi Medi-Clave, I would like a quotation. Product/load details: [add details]. Location: [add location]. Timeline: [add timeline].',
+  },
+  'faq:product-fit': {
+    label: 'Product selection',
+    response:
+      'To match the right sterilizer, we need to know your load type, chamber size requirement, cycle frequency, drying needs, available space, power/steam/water access, and whether you need a small, large, bulk, or specialized unit.',
+    whatsapp:
+      'Hi Medi-Clave, I need help selecting the correct sterilizer. Load type: [add]. Capacity needed: [add]. Facility type: [add].',
+  },
+  'faq:service': {
+    label: 'Service or maintenance',
+    response:
+      'For planned service, send the model, serial number if available, site location, current operating condition, last service date, and preferred service date. Photos of the data plate help the team respond faster.',
+    whatsapp:
+      'Hi Medi-Clave, I need service or maintenance. Model/serial: [add]. Site location: [add]. Preferred date: [add].',
+  },
+  'faq:repair': {
+    label: 'Breakdown or repair',
+    response:
+      'For a breakdown, send the unit model, fault or alarm message, whether the unit is still operating, urgency, site location, and contact person. Include photos or a short video where possible.',
+    whatsapp:
+      'Hi Medi-Clave, I have an autoclave breakdown. Fault/alarm: [add]. Model: [add]. Site: [add]. Urgency: [add].',
+  },
+  'faq:consumables': {
+    label: 'Consumables',
+    response:
+      'For consumables, tell us your sterilizer type and what you need: monitoring indicators, packaging, traceability items, sterility assurance products, or routine CSSD supplies.',
+    whatsapp:
+      'Hi Medi-Clave, I need consumables. Sterilizer type: [add]. Items required: [monitoring/packaging/traceability/other].',
+  },
+  'faq:validation': {
+    label: 'Validation and compliance',
+    response:
+      'For validation or compliance support, share the equipment model, facility type, required documentation, test frequency, and whether this is for commissioning, audit preparation, or routine quality control.',
+    whatsapp:
+      'Hi Medi-Clave, I need validation/compliance support. Equipment: [add]. Facility: [add]. Requirement: [commissioning/audit/routine QC].',
+  },
+  'faq:installation': {
+    label: 'Installation planning',
+    response:
+      'For installation planning, send the selected equipment, room dimensions, doorway access, electrical supply, water/drainage availability, ventilation needs, and preferred installation date.',
+    whatsapp:
+      'Hi Medi-Clave, I need installation planning. Equipment: [add]. Site location: [add]. Utilities available: [add].',
+  },
+  'faq:whatsapp': {
+    label: 'WhatsApp handover',
+    response:
+      'You can continue directly on WhatsApp. The link below will open a prepared message to Medi-Clave at +27 (0)82 925 4918.',
+    whatsapp: 'Hi Medi-Clave, I would like assistance with sterilization equipment.',
+  },
+};
+
 function initIcons() {
   if (window.lucide) window.lucide.createIcons();
 }
@@ -290,6 +348,8 @@ function whatsappUrl(message) {
 function agentReply(input) {
   const text = input.toLowerCase();
 
+  if (faqReplies[input]) return faqReplies[input].response;
+
   if (text.includes('quote') || text.includes('price') || text.includes('cost')) {
     return 'For a quote, send the product type, chamber size or daily load volume, location, utilities available, and whether you need installation, validation, or servicing.';
   }
@@ -300,6 +360,14 @@ function agentReply(input) {
 
   if (text.includes('consumable') || text.includes('indicator') || text.includes('packaging')) {
     return 'Medi-Clave can assist with monitoring, packaging, traceability, and sterility assurance consumables. Tell us your sterilizer type and current process.';
+  }
+
+  if (text.includes('validation') || text.includes('compliance') || text.includes('audit')) {
+    return 'For validation and compliance support, share the equipment model, facility type, documentation required, and whether the request is for commissioning, audit preparation, or routine quality control.';
+  }
+
+  if (text.includes('install') || text.includes('delivery') || text.includes('commission')) {
+    return 'For installation planning, send the equipment type, room access, site location, available utilities, preferred timeline, and whether commissioning or handover training is needed.';
   }
 
   if (text.includes('autoclave') || text.includes('sterilizer') || text.includes('steriliser')) {
@@ -321,7 +389,7 @@ function addMessage(text, sender = 'agent') {
 function updateWhatsAppHandover() {
   const handover = $('#whatsappHandover');
   const message = lastChatMessage
-    ? `Hi Medi-Clave, I need more information. My question was: ${lastChatMessage}`
+    ? lastChatMessage
     : 'Hi Medi-Clave, I would like more information about your sterilization equipment.';
   handover.href = whatsappUrl(message);
 }
@@ -330,8 +398,9 @@ function sendChatMessage(text) {
   const cleanText = text.trim();
   if (!cleanText) return;
 
-  lastChatMessage = cleanText;
-  addMessage(cleanText, 'user');
+  const faq = faqReplies[cleanText];
+  lastChatMessage = faq?.whatsapp || cleanText;
+  addMessage(faq?.label || cleanText, 'user');
   $('#chatInput').value = '';
   updateWhatsAppHandover();
 
@@ -382,7 +451,7 @@ function initChat() {
   $('#chatClose').addEventListener('click', () => $('#chatWidget').classList.remove('open'));
   $('#chatForm').addEventListener('submit', submitChat);
   $$('[data-prompt]').forEach((button) => button.addEventListener('click', () => sendChatMessage(button.dataset.prompt)));
-  addMessage('Hi, I am the Medi-Clave Assistant. Ask about autoclaves, sterilizers, service, repairs, consumables, or quotes.');
+  addMessage('Hi, I am the Medi-Clave Assistant. Choose a topic below or type your question about autoclaves, products, service, repairs, consumables, validation, or installation.');
   updateWhatsAppHandover();
 }
 
