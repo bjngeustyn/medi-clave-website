@@ -47,6 +47,8 @@ const defaultProducts = [
     capacity: 'Low temperature plasma',
     description: 'Low temperature plasma sterilisation for heat-sensitive instruments and specialized clinical workflows where steam sterilisation is not suitable.',
     image: 'assets/medi-clave-chatbot.png',
+    video: 'assets/laoken-low-temperature-plasma-steriliser.mov',
+    videoType: 'video/quicktime',
   },
   {
     id: 'monitoring',
@@ -183,13 +185,25 @@ function productCard(product) {
   return `
     <article class="product-card">
       <div class="product-media">
-        <img src="${product.image || productImageFallback()}" alt="${product.name}" loading="lazy" onerror="this.src='${productImageFallback()}'">
+        ${
+          product.video
+            ? `<video controls preload="metadata" poster="${product.image || productImageFallback()}">
+                <source src="${product.video}" type="${product.videoType || 'video/mp4'}">
+                Your browser cannot play this video. Open it below.
+              </video>`
+            : `<img src="${product.image || productImageFallback()}" alt="${product.name}" loading="lazy" onerror="this.src='${productImageFallback()}'">`
+        }
       </div>
       <div class="product-card-body">
         <span class="tag">${product.category}</span>
         <h3>${product.name}</h3>
         <strong>${product.capacity || 'Specification on request'}</strong>
         <p>${product.description || 'Contact Medi-Clave for product specifications and availability.'}</p>
+        ${
+          product.video
+            ? `<a class="ghost-button" href="${product.video}" target="_blank" rel="noreferrer"><i data-lucide="play-circle"></i>Open product video</a>`
+            : ''
+        }
         <a class="ghost-button" href="${whatsappUrl(`Hi Medi-Clave, I would like more information about ${product.name}.`)}" target="_blank" rel="noreferrer">
           <i data-lucide="message-circle"></i>Ask on WhatsApp
         </a>

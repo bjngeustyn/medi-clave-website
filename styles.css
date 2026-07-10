@@ -427,10 +427,16 @@ button,
     var(--surface-soft);
 }
 
-.product-media img {
+.product-media img,
+.product-media video {
   width: 100%;
   height: 220px;
   object-fit: cover;
+}
+
+.product-media video {
+  display: block;
+  background: #071c34;
 }
 
 .product-card-body {

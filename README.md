@@ -30,3 +30,7 @@ For this static GitHub Pages version, the password is stored in `app.js` and sho
 ## Chatbot
 
 The floating assistant uses `assets/medi-clave-chatbot.png` and provides selectable FAQ prompts for quotes, product fit, service, breakdowns, consumables, validation, installation, and WhatsApp handover.
+
+## Laoken Video
+
+The Laoken Low Temperature Plasma Steriliser product card uses `assets/laoken-low-temperature-plasma-steriliser.mov`.
